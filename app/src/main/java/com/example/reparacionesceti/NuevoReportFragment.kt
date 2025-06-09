@@ -16,7 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.reparacionesceti.model.AppDatabase
-import com.example.reparacionesceti.model.Reporte
+import com.example.reparacionesceti.model.entities.Reporte
 import kotlinx.coroutines.launch
 
 class NuevoReporteFragment : Fragment() {

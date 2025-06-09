@@ -1,4 +1,4 @@
-package com.example.reparacionesceti.model
+package com.example.reparacionesceti.model.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

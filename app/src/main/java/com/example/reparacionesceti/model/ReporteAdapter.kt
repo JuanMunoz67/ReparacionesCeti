@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reparacionesceti.R
+import com.example.reparacionesceti.model.entities.Reporte
 
 class ReporteAdapter(
     private var reportes: List<Reporte>
