@@ -6,9 +6,9 @@ import androidx.room.Query
 import com.example.reparacionesceti.model.entities.User
 
 @Dao
-interface UserDAO {
+interface UserDao {
     @Insert
-    suspend fun insertar(user: User)
+    suspend fun insert(user: User)
 
     @Query("SELECT * FROM users WHERE email = :email")
     suspend fun getByEmail(email: String): User?

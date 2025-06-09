@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.reparacionesceti.model.dao.ReporteDao
+import com.example.reparacionesceti.model.dao.UserDao
 import com.example.reparacionesceti.model.entities.Reporte
 import com.example.reparacionesceti.model.entities.User
 
@@ -12,6 +13,7 @@ import com.example.reparacionesceti.model.entities.User
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun reporteDao(): ReporteDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile
