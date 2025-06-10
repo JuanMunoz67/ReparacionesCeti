@@ -42,6 +42,14 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         init()
+        if (sessionExists()) {
+            startMainActivity()
+        }
+    }
+
+    private fun sessionExists() : Boolean {
+        val user = Preferences(getSharedPreferences(Preferences.USER_SESSION, MODE_PRIVATE)).getUserSession();
+        return user != null
     }
 
     private suspend fun login() {
@@ -54,10 +62,8 @@ class LoginActivity : AppCompatActivity() {
                 val user = db.userDao().getByEmailAndPassword(email, password)
                 if (user != null) {
                     Preferences(getSharedPreferences(Preferences.USER_SESSION, MODE_PRIVATE)).saveUserSession(user)
+                    startMainActivity()
 
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
                 } else {
                     Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
                 }
@@ -66,5 +72,11 @@ class LoginActivity : AppCompatActivity() {
         else {
             Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

@@ -21,6 +21,8 @@ class Preferences (val sharedPreferences: SharedPreferences) {
         editor.putString("name", user.name)
         editor.putInt("id", user.id)
         editor.apply()
+
+        currentUser = user
     }
 
     fun getUserSession(): User? {
