@@ -15,3 +15,4 @@ La sesion de usuario se guarda de forma local para no volver a hacer login.
 
     // admin, estudiante, tecnico
   ```
+- Falta boton u opcion de LogOut
