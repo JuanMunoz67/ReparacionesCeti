@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.reparacionesceti.model.AppDatabase
 import com.example.reparacionesceti.model.dao.UserDao
+import com.example.reparacionesceti.preferences.Preferences
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -52,6 +53,8 @@ class LoginActivity : AppCompatActivity() {
                 val db = AppDatabase.getDatabase(this)
                 val user = db.userDao().getByEmailAndPassword(email, password)
                 if (user != null) {
+                    Preferences(getSharedPreferences(Preferences.USER_SESSION, MODE_PRIVATE)).saveUserSession(user)
+
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -59,6 +62,9 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
                 }
 
+        }
+        else {
+            Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
         }
     }
 }

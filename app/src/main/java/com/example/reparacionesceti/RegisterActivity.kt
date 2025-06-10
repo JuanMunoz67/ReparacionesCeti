@@ -32,6 +32,7 @@ class RegisterActivity : AppCompatActivity() {
         etConfirmPasswordRegister = findViewById(R.id.etConfirmPasswordRegister)
         chipGroupUserRole = findViewById(R.id.chipGroupUserRole)
         btnDoRegister = findViewById(R.id.btnDoRegister)
+        btLogin = findViewById(R.id.btnLoginInstead)
 
 
         btnDoRegister.setOnClickListener {
