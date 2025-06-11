@@ -70,8 +70,11 @@ class RegisterActivity : AppCompatActivity() {
 
             Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
 
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
+            startActivity(intent)
+            finish()
         }
         else {
             Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
