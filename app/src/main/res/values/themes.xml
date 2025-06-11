@@ -1,8 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 1. Base application theme (CAN have an ActionBar by default) -->
-    <!--    If MainActivity should have an ActionBar, use a parent like Theme.MaterialComponents.DayNight.DarkActionBar -->
-    <!--    If MainActivity ALSO should NOT have an ActionBar by default, then use Theme.MaterialComponents.DayNight.NoActionBar here too -->
     <style name="Theme.ReparacionesCeti" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue_primary</item>
@@ -13,19 +10,15 @@
         <item name="colorSecondaryVariant">@color/orange_secondary</item>
         <item name="colorOnSecondary">@color/gray_background</item>
 
-        <!-- Edge-to-edge setup (OPTIONAL for ActionBar themes, but good for consistency if you want it) -->
-        <!-- If using an ActionBar theme and want edge-to-edge, the ActionBar itself often handles top inset -->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item> <!-- Or transparent for edge-to-edge -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- <item name="android:navigationBarColor">@android:color/transparent</item> -->
 
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <!-- <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item> -->
     </style>
 
-    <!-- 2. Specific theme for LoginActivity and RegisterActivity (NO ActionBar) -->
     <style name="Theme.ReparacionesCeti.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Inherit general colors from the base theme or define them if they are different -->
         <item name="colorPrimary">@color/blue_primary</item>
         <item name="colorPrimaryVariant">@color/blue_secondary</item>
         <item name="colorOnPrimary">@color/gray_background</item>
@@ -33,13 +26,12 @@
         <item name="colorSecondaryVariant">@color/orange_secondary</item>
         <item name="colorOnSecondary">@color/gray_background</item>
 
-        <!-- Edge-to-edge for full screen Login/Register -->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
 
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item> <!-- Assuming light background for login -->
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item> <!-- Assuming light background for login -->
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
 
 </resources>
