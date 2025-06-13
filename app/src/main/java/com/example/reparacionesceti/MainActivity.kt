@@ -1,6 +1,8 @@
 package com.example.reparacionesceti
 
+import android.content.Context
 import android.os.Bundle
+import android.view.Menu
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +12,12 @@ import androidx.core.view.updatePadding
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.reparacionesceti.preferences.Preferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
+    private var userRole: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,19 +28,17 @@ class MainActivity : AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
 
-            // Apply padding to the root view of your activity
             view.updatePadding(
                 left = insets.left,
-                top = insets.top, // This will push content below the status bar & notch
+                top = insets.top,
                 right = insets.right,
-                bottom = insets.bottom // This will push content above the navigation bar
+                bottom = insets.bottom
             )
 
-            // Return CONSUMED if you've handled the insets
             WindowInsetsCompat.CONSUMED
-            // Or return windowInsets if you want them to be propagated further
-            // windowInsets
         }
+
+        userRole = Preferences.currentUser?.role
 
         // Vinculamos el BottomNavigationView con el Navigation Controller
         val navHostFragment = supportFragmentManager
@@ -45,5 +48,21 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
         bottomNavigationView.setupWithNavController(navController)
+
+        adjustBottomNavigationMenu(bottomNavigationView.menu)
+    }
+
+    private fun adjustBottomNavigationMenu(menu: Menu) {
+        val navReportes = menu.findItem(R.id.nav_reportes)
+        val navUsuarios = menu.findItem(R.id.nav_usuarios)
+        val navStats = menu.findItem(R.id.nav_stats)
+        val navPerfil = menu.findItem(R.id.nav_perfil)
+        val navNotificaciones = menu.findItem(R.id.nav_notificaciones)
+
+        navReportes.isVisible = true
+        navUsuarios.isVisible = userRole == "admin"
+        navStats.isVisible = userRole == "admin"
+        navPerfil.isVisible = true
+        navNotificaciones.isVisible = true
     }
 }

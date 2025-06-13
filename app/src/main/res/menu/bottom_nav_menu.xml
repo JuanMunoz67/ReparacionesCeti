@@ -1,15 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/nav_inicio"
+    <item android:id="@+id/nav_reportes"
         android:icon="@android:drawable/ic_menu_view"
         android:title="Inicio" />
-    <item android:id="@+id/nav_reportar"
-        android:icon="@android:drawable/ic_menu_edit"
-        android:title="Reportar" />
-    <item android:id="@+id/nav_mis_reportes"
+    <item
+        android:id="@+id/nav_notificaciones"
         android:icon="@android:drawable/ic_menu_agenda"
-        android:title="Mis Reportes" />
-    <item android:id="@+id/nav_panel_tecnico"
-        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Notificaciones" />
+    <item
+        android:id="@+id/nav_usuarios"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Reportar" />
+    <item
+        android:id="@+id/nav_stats"
+        android:icon="@android:drawable/ic_menu_today"
         android:title="Panel" />
     <item android:id="@+id/nav_perfil"
         android:icon="@android:drawable/ic_menu_myplaces"
