@@ -9,7 +9,7 @@ import com.example.reparacionesceti.model.dao.UserDao
 import com.example.reparacionesceti.model.entities.Reporte
 import com.example.reparacionesceti.model.entities.User
 
-@Database(entities = [Reporte::class, User::class], version = 1)
+@Database(entities = [Reporte::class, User::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun reporteDao(): ReporteDao

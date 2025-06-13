@@ -77,20 +77,21 @@ class NuevoReporteFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            val nuevoReporte = Reporte(
+            /*val nuevoReporte = Reporte(
                 titulo = titulo,
                 ubicacion = ubicacion,
                 descripcion = descripcion,
+                notas = "",
                 estado = "Pendiente",
                 imagenUri = imagenUri?.toString(),
                 fecha = System.currentTimeMillis()
-            )
+            )*/
 
-            lifecycleScope.launch {
-                db.reporteDao().insertar(nuevoReporte)
-                Toast.makeText(requireContext(), "Reporte enviado", Toast.LENGTH_SHORT).show()
-                limpiarCampos()
-            }
+            //lifecycleScope.launch {
+              //  db.reporteDao().insertar(nuevoReporte)
+                //Toast.makeText(requireContext(), "Reporte enviado", Toast.LENGTH_SHORT).show()
+                ///limpiarCampos()
+            //}
         }
     }
 

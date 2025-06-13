@@ -10,7 +10,8 @@ data class Reporte(
     val titulo: String,
     val ubicacion: String,
     val descripcion: String,
+    val notas: String?,
     val estado: String,
     val imagenUri: String?,
-    val fecha: Long
+    val fecha: String
 )

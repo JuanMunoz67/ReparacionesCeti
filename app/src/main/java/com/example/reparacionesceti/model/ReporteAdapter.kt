@@ -39,6 +39,12 @@ class ReporteAdapter(
             "resuelto" -> holder.itemView.context.getColorStateList(R.color.green_success)
             else -> holder.itemView.context.getColorStateList(R.color.gray_background)
         }
+        holder.chEstado.chipIcon = when (reporte.estado.lowercase()) {
+            "pendiente" -> holder.itemView.context.getDrawable(R.drawable.baseline_pending_actions_24)
+            "en proceso" -> holder.itemView.context.getDrawable(R.drawable.baseline_home_repair_service_24)
+            "resuelto" -> holder.itemView.context.getDrawable(R.drawable.baseline_thumb_up_24)
+            else -> null
+        }
     }
 
     override fun getItemCount(): Int = reportes.size
