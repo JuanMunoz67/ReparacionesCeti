@@ -56,7 +56,10 @@ class CrearReporteActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
 
+    companion object {
+        private const val EXTRA_REPORTE_ID = "reporteId"
 
+    }
 
     private fun init() {
         imgView = findViewById(R.id.imageViewUpload)
@@ -78,6 +81,35 @@ class CrearReporteActivity : AppCompatActivity() {
         }
 
         db = AppDatabase.getDatabase(this)
+    }
+
+    private fun setValuesIfAny() {
+        val reporteId = intent.getIntExtra(EXTRA_REPORTE_ID, -1)
+
+        if (reporteId != -1) {
+            lifecycleScope.launch {
+                val reporte = db.reporteDao().obtenerPorId(reporteId)
+                reporte?.let {
+                    etTitulo.setText(it.titulo)
+                    etUbicacion.setText(it.ubicacion)
+                    etDescripcion.setText(it.descripcion)
+                    etNotas.setText(it.notas)
+                    chipGroupEstado.check(
+                        when (it.estado) {
+                            "Pendiente" -> R.id.chipPendiente
+                            "En proceso" -> R.id.chipEnProceso
+                            "Resuelto" -> R.id.chipResuelto
+                            else -> -1
+                        }
+                    )
+                    imgView.load(it.imagenUri) {
+                        crossfade(true)
+                        placeholder(R.drawable.baseline_add_a_photo_24)
+                    }
+                }
+
+            }
+        }
     }
 
     private fun saveReport() {
@@ -121,6 +153,7 @@ class CrearReporteActivity : AppCompatActivity() {
             insets
         }
 
+        setValuesIfAny()
     }
 
     private fun setupLaunchers() {

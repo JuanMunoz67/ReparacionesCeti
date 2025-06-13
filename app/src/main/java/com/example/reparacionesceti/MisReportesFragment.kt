@@ -26,7 +26,7 @@ class MisReportesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = view.findViewById(R.id.recyclerReportes)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = ReporteAdapter(emptyList())
+        //adapter = ReporteAdapter(emptyList())
         recyclerView.adapter = adapter
 
         db = AppDatabase.getDatabase(requireContext())

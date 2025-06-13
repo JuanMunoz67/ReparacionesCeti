@@ -36,13 +36,28 @@ class ListaReportesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        reporteAdapter = ReporteAdapter(emptyList())
+        /*reporteAdapter = ReporteAdapter(emptyList())
 
 
         binding.recyclerReportes.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = reporteAdapter
+        }*/
+
+        db = AppDatabase.getDatabase(requireContext())
+        lifecycleScope.launch {
+            cargarReportes()
+
+            binding.recyclerReportes.layoutManager = LinearLayoutManager(requireContext())
+            binding.recyclerReportes.adapter = ReporteAdapter(reportes) { reporte ->
+                val intent = Intent(requireContext(), CrearReporteActivity::class.java)
+                intent.putExtra("reporteId", reporte.id)
+                startActivity(intent)
+            }
         }
+
+
+
 
         binding.fabAgregar.setOnClickListener {
             //findNavController().navigate(R.id.action_listaReportesFragment_to_formularioReporteFragment)
@@ -52,8 +67,7 @@ class ListaReportesFragment : Fragment() {
 
         // Cargar datos para mostrar en la lista
 
-        db = AppDatabase.getDatabase(requireContext())
-        lifecycleScope.launch { cargarReportes() }
+
     }
 
     private suspend fun cargarReportes() {
@@ -90,7 +104,7 @@ class ListaReportesFragment : Fragment() {
             )
         )*/
         reportes = db.reporteDao().obtenerTodos()
-        reporteAdapter.actualizarLista(reportes)
+        //reporteAdapter.actualizarLista(reportes)
 
     }
 

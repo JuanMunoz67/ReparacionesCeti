@@ -21,4 +21,7 @@ interface ReporteDao {
 
     @Update
     suspend fun actualizar(reporte: Reporte)
+
+    @Query("SELECT * FROM reportes WHERE id = :reporteId")
+    suspend fun obtenerPorId(reporteId: Int): Reporte?
 }
