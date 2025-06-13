@@ -28,6 +28,7 @@ import coil3.request.placeholder
 import com.example.reparacionesceti.model.AppDatabase
 import com.example.reparacionesceti.model.dao.ReporteDao
 import com.example.reparacionesceti.model.entities.Reporte
+import com.example.reparacionesceti.preferences.Preferences
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.launch
@@ -55,11 +56,16 @@ class CrearReporteActivity : AppCompatActivity() {
     private lateinit var pickImageLauncher: ActivityResultLauncher<String>
 
     private lateinit var db: AppDatabase
+    private var editMode = false
+
+    private lateinit var userRole: String
 
     companion object {
         private const val EXTRA_REPORTE_ID = "reporteId"
 
     }
+
+    private var reporte: Reporte? = null
 
     private fun init() {
         imgView = findViewById(R.id.imageViewUpload)
@@ -81,14 +87,17 @@ class CrearReporteActivity : AppCompatActivity() {
         }
 
         db = AppDatabase.getDatabase(this)
+        userRole = Preferences.currentUser!!.role
     }
 
     private fun setValuesIfAny() {
         val reporteId = intent.getIntExtra(EXTRA_REPORTE_ID, -1)
 
         if (reporteId != -1) {
+            editMode = true
             lifecycleScope.launch {
-                val reporte = db.reporteDao().obtenerPorId(reporteId)
+                reporte = db.reporteDao().obtenerPorId(reporteId)
+
                 reporte?.let {
                     etTitulo.setText(it.titulo)
                     etUbicacion.setText(it.ubicacion)
@@ -107,9 +116,38 @@ class CrearReporteActivity : AppCompatActivity() {
                         placeholder(R.drawable.baseline_add_a_photo_24)
                     }
                 }
+            }
+            btnGuardar.text = "Actualizar"
 
+            if (userRole == "estudiante") {
+                imgView.isEnabled = false
+                etTitulo.isEnabled = false
+                etUbicacion.isEnabled = false
+                etDescripcion.isEnabled = false
+                etNotas.isEnabled = false
+                chipGroupEstado.isEnabled = false
+                btnGuardar.isEnabled = false
+            }
+
+            if (userRole == "tecnico") {
+                etTitulo.isEnabled = false
+                etUbicacion.isEnabled = false
+                etDescripcion.isEnabled = false
+                etNotas.isEnabled = true
+                chipGroupEstado.isEnabled = true
+                btnGuardar.isEnabled = true
+            }
+
+            if (userRole == "admin") {
+                etTitulo.isEnabled = true
+                etUbicacion.isEnabled = true
+                etDescripcion.isEnabled = true
+                etNotas.isEnabled = true
+                chipGroupEstado.isEnabled = true
             }
         }
+
+
     }
 
     private fun saveReport() {
@@ -119,20 +157,38 @@ class CrearReporteActivity : AppCompatActivity() {
         val notas = etNotas.text.toString()
         val imagenUri = currentPhotoUri.toString()
         val estadoId = chipGroupEstado.checkedChipId
-        val estadoReporte = findViewById<Chip>(estadoId)?.text.toString()
+        val estadoReporte = findViewById<Chip>(estadoId)?.text.toString().lowercase()
+
+        //var reporte: Reporte? = null
 
         if (titulo.isNotEmpty() && ubicacion.isNotEmpty() && descripcion.isNotEmpty() && imagenUri.isNotEmpty() && (estadoReporte != "")) {
             val timeStamp: String = SimpleDateFormat("dd-mm-yyyy", Locale.getDefault()).format(Date())
-            val reporte = Reporte(
-                titulo = titulo,
-                ubicacion = ubicacion,
-                descripcion = descripcion,
-                notas = notas,
-                estado = estadoReporte,
-                imagenUri = imagenUri?.toString(),
-                fecha = timeStamp.toString()
-            )
-            lifecycleScope.launch { db.reporteDao().insertar(reporte) }
+
+            lifecycleScope.launch {
+                if (!editMode) {
+                    reporte = Reporte(
+                        titulo = titulo,
+                        ubicacion = ubicacion,
+                        descripcion = descripcion,
+                        notas = notas,
+                        estado = estadoReporte,
+                        imagenUri = imagenUri?.toString(),
+                        fecha = timeStamp.toString()
+                    )
+                    db.reporteDao().insertar(reporte!!)
+                }
+                else {
+                    //reporte.id = reporteId
+                    reporte?.titulo = titulo
+                    reporte?.ubicacion = ubicacion
+                    reporte?.descripcion = descripcion
+                    reporte?.notas = notas
+                    reporte?.estado = estadoReporte
+                    reporte?.imagenUri = imagenUri?.toString()
+
+                    db.reporteDao().actualizar(reporte!!)
+                }
+            }
         }
         else {
             Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()

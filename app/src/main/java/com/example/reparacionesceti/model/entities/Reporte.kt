@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey
 data class Reporte(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val titulo: String,
-    val ubicacion: String,
-    val descripcion: String,
-    val notas: String?,
-    val estado: String,
-    val imagenUri: String?,
+    var titulo: String,
+    var ubicacion: String,
+    var descripcion: String,
+    var notas: String?,
+    var estado: String,
+    var imagenUri: String?,
     val fecha: String
 )

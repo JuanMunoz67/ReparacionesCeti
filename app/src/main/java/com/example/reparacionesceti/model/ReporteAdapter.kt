@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reparacionesceti.R
 import com.example.reparacionesceti.databinding.ItemReporteBinding
@@ -29,6 +30,19 @@ class ReporteAdapter(
             binding.tvUbicacion.text = "Ubicación: ${reporte.ubicacion}"
             binding.tvFecha.text = "Fecha: ${reporte.fecha}"
             binding.chEstado.text = "${reporte.estado}"
+
+            binding.chEstado.chipBackgroundColor = when (reporte.estado.lowercase()) {
+                "pendiente" -> binding.root.context.getColorStateList(R.color.red_urgent)
+                "en proceeso" -> binding.root.context.getColorStateList(R.color.orange_warning)
+                "resuelto" -> binding.root.context.getColorStateList(R.color.green_success)
+                else -> binding.root.context.getColorStateList(R.color.gray_background)
+            }
+            binding.chEstado.chipIcon = when (reporte.estado.lowercase()) {
+                "pendiente" -> AppCompatResources.getDrawable(binding.root.context, R.drawable.baseline_pending_actions_24)
+                "en proceso" -> AppCompatResources.getDrawable(binding.root.context, R.drawable.baseline_home_repair_service_24)
+                "resuelto" -> AppCompatResources.getDrawable(binding.root.context, R.drawable.baseline_thumb_up_24)
+                else -> null
+            }
         }
     }
 
@@ -44,6 +58,7 @@ class ReporteAdapter(
     override fun onBindViewHolder(holder: ReporteViewHolder, position: Int) {
         val reporte = reportes[position]
         holder.bind(reporte)
+
         holder.itemView.setOnClickListener { reporteClickedListener(reporte) }
     }
 

@@ -22,6 +22,10 @@ interface ReporteDao {
     @Update
     suspend fun actualizar(reporte: Reporte)
 
+    @Query("DELETE FROM reportes WHERE id = :reporteId")
+    suspend fun eliminarPorId(reporteId: Int)
+
+
     @Query("SELECT * FROM reportes WHERE id = :reporteId")
     suspend fun obtenerPorId(reporteId: Int): Reporte?
 }
