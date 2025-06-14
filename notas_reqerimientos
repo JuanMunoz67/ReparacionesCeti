@@ -1,0 +1,22 @@
+USER
+reportes (suyos)
+    reporte
+crear reporte
+    -
+notificaciones
+    reporte
+
+ADMIN
+reportes (todos)
+    reporte
+usuarios (todos)
+    usuario
+estadisticas ()
+    -historial?
+
+TECNICO
+reportes (todos)
+    reporte (editar estado, notas) -> enviar notificaciones
+    
+
+    

@@ -86,14 +86,12 @@ class CrearReporteActivity : AppCompatActivity() {
 
         btnGuardar.setOnClickListener {
             saveReport()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         btnBorrar.setOnClickListener {
             deleteReport()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         btnBorrar.visibility = View.GONE

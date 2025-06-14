@@ -3,6 +3,7 @@ package com.example.reparacionesceti.model.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.reparacionesceti.model.entities.User
 
 @Dao
@@ -21,5 +22,8 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE id = :id")
     suspend fun getById(id: Int): User?
+
+    @Update
+    suspend fun updateUser(user: User)
 
 }

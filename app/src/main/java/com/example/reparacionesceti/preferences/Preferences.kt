@@ -26,10 +26,10 @@ class Preferences (val sharedPreferences: SharedPreferences) {
     }
 
     fun getUserSession(): User? {
-        val email = sharedPreferences.getString("email", "")
-        val pass = sharedPreferences.getString("pass", "")
-        val role = sharedPreferences.getString("role", "")
-        val name = sharedPreferences.getString("name", "")
+        val email = sharedPreferences.getString("email", null)
+        val pass = sharedPreferences.getString("pass", null)
+        val role = sharedPreferences.getString("role", null)
+        val name = sharedPreferences.getString("name", null)
         val id = sharedPreferences.getInt("id", 0)
         if (email != null && pass != null) {
             currentUser = User(id, name!!, email, pass, role!!)
@@ -39,6 +39,7 @@ class Preferences (val sharedPreferences: SharedPreferences) {
 
 
     fun deleteUserSession() {
+        currentUser = null
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.putString("email", "")
         editor.putString("pass", "")
