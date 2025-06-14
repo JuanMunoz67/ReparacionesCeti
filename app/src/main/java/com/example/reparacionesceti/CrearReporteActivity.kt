@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -47,6 +48,8 @@ class CrearReporteActivity : AppCompatActivity() {
     private lateinit var btnGuardar: Button
     private lateinit var chipGroupEstado: ChipGroup
 
+    private lateinit var btnBorrar: Button
+
     private var currentPhotoUri: Uri? = null
 
     private lateinit var requestCameraPermissionLauncher: ActivityResultLauncher<String>
@@ -75,6 +78,7 @@ class CrearReporteActivity : AppCompatActivity() {
         etNotas = findViewById(R.id.etReporteNotas)
         btnGuardar = findViewById(R.id.btnDoRegister)
         chipGroupEstado = findViewById(R.id.chipGroupReporteEstado)
+        btnBorrar = findViewById(R.id.btDeleteReport)
 
         imgView.setOnClickListener{
             showImageSourceDialog()
@@ -85,6 +89,16 @@ class CrearReporteActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+
+        btnBorrar.setOnClickListener {
+            deleteReport()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnBorrar.visibility = View.GONE
+        btnBorrar.isEnabled = false
+
 
         db = AppDatabase.getDatabase(this)
         userRole = Preferences.currentUser!!.role
@@ -127,6 +141,7 @@ class CrearReporteActivity : AppCompatActivity() {
                 etNotas.isEnabled = false
                 chipGroupEstado.isEnabled = false
                 btnGuardar.isEnabled = false
+                btnBorrar.isEnabled = false
             }
 
             if (userRole == "tecnico") {
@@ -136,6 +151,7 @@ class CrearReporteActivity : AppCompatActivity() {
                 etNotas.isEnabled = true
                 chipGroupEstado.isEnabled = true
                 btnGuardar.isEnabled = true
+                btnBorrar.isEnabled = false
             }
 
             if (userRole == "admin") {
@@ -144,6 +160,10 @@ class CrearReporteActivity : AppCompatActivity() {
                 etDescripcion.isEnabled = true
                 etNotas.isEnabled = true
                 chipGroupEstado.isEnabled = true
+
+                btnBorrar.visibility = View.VISIBLE
+                btnBorrar.isEnabled = true
+
             }
         }
 
@@ -176,6 +196,7 @@ class CrearReporteActivity : AppCompatActivity() {
                         fecha = timeStamp.toString()
                     )
                     db.reporteDao().insertar(reporte!!)
+
                 }
                 else {
                     //reporte.id = reporteId
@@ -186,6 +207,7 @@ class CrearReporteActivity : AppCompatActivity() {
                     reporte?.estado = estadoReporte
                     reporte?.imagenUri = imagenUri?.toString()
 
+
                     db.reporteDao().actualizar(reporte!!)
                 }
             }
@@ -193,6 +215,14 @@ class CrearReporteActivity : AppCompatActivity() {
         else {
             Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun deleteReport() {
+        if (reporte == null || userRole != "admin") return
+        lifecycleScope.launch {
+            db.reporteDao().eliminarPorId(reporte!!.id)
+        }
+        Toast.makeText(this, "Reporte eliminado", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
