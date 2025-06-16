@@ -62,7 +62,10 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         db = AppDatabase.getDatabase(this)
-        userRole = Preferences.currentUser!!.role
+
+        if (Preferences.currentUser != null) {
+            userRole = Preferences.currentUser!!.role
+        }
 
         init()
         setValuesIfAny()
@@ -77,7 +80,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun setValuesIfAny() {
         userId = intent.getIntExtra("userId", -1)
 
-        if (userId != -1) {
+        if (userId != -1 && userRole != "") {
             editMode = true
             btLogin.isEnabled = false
             btLogin.visibility = View.GONE
